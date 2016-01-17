@@ -30,6 +30,7 @@
     "css-loader": "^0.23.1",
     "eslint": "^1.10.3",
     "eslint-loader": "^1.2.0",
+    "font-awesome": "^4.5.0",
     "gulp": "^3.9.0",
     "html-loader": "^0.4.0",
     "jade": "^1.11.0",

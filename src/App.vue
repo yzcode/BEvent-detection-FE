@@ -21,6 +21,7 @@ export default {
 font-stack = Helvetica, sans-serif
 primary-color = #EEE
 body
+  margin 0
   font 100% font-stack
   background-color primary-color
 
