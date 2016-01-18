@@ -34,6 +34,7 @@
     "gulp": "^3.9.0",
     "html-loader": "^0.4.0",
     "jade": "^1.11.0",
+    "jquery": "^2.2.0",
     "stylus": "^0.53.0",
     "stylus-loader": "^1.4.3",
     "template-html-loader": "0.0.3",
