@@ -3,9 +3,9 @@
  */
 import Vue from 'vue'
 import App from './App.vue'
-
+import Event from './Event.vue'
 /* eslint-disable no-new */
 new Vue({
   el: 'body',
-  components: { App }
+  components: { App, Event}
 })

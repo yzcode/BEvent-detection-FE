@@ -1,23 +1,23 @@
 <template>
 <content-frame spe-name="event-list">
   <div slot="title">
-    突发事件
+    {{title}}
     <span class="sys-status" >
-      系统状态: 正常
+      {{tipWord}}
       <span class="fa fa-refresh"></span>
     </span>
   </div>
   <div slot="content">
-    <div v-for="item in items" class="list-item">
+    <div v-for="event in events | orderBy 'tweet_rate' -1" class="list-item">
       <div class="event-wrap">
         <a class="event-cont">
           <div class="index"></div>
           <div class="title">
-            <span>{{item.title}}</span>
+            <span>{{event.wordsStr}}</span>
           </div>
           <div class="followers">
-            <span>{{item.notice}}</span>
-            <div class="label">过去24小时内关注人数</div>
+            <span>{{event.tweet_rate}}</span>
+            <div class="label">{{rateLabel}}</div>
           </div>
           <div class="img-wrap">
             <img class="event-img" src="/dist/assets/img/people.jpg">
@@ -30,54 +30,47 @@
 </template>
 
 <script>
+var $ = require('jquery')
 import contentFrame from './Content-frame.vue'
 export default {
+  props: ['dataUrl', 'title', 'tipWord', 'rateLabel'],
   data () {
     return {
-      items: [
-        {
-          title: '美国打过来了',
-          notice: 1999
-        },
-        {
-          title: '朝鲜打过来了',
-          notice: 2999
-        },
-        {
-          title: '英国国打过来了',
-          notice: 3999
-        },
-        {
-          title: '伊拉克打过来了',
-          notice: 4999
-        },
-        {
-          title: '利比亚打过来了',
-          notice: 5999
-        },
-        {
-          title: '伊朗打过来了',
-          notice: 6999
-        },
-        {
-          title: '韩国打过来了',
-          notice: 7999
-        },
-        {
-          title: '中国打过来了',
-          notice: 8999
-        },
-        {
-          title: '法国打过来了',
-          notice: 9999
-        },
-        {
-          title: '加拿大打过来了',
-          notice: 10999
-        }
-      ]
+      events: []
     }
   },
+
+  ready () {
+    console.log(this.dataUrl)
+    $.get(this.dataUrl, (data, status) => {
+      for (var i in data) {
+        data[i].burst_tweets_count = parseInt(data[i].burst_tweets_count, 10)
+        data[i].sum_tweets_count = parseInt(data[i].sum_tweets_count, 10)
+        var tmpWords = []
+        for (var key in data[i].burst_words) {
+          if (key !== undefined) {
+            tmpWords.push({'word': key, 'value': parseInt(data[i].burst_words[key], 10)})
+          }
+        }
+        tmpWords.sort((a, b) => {
+          return b.value - a.value
+        })
+        var wordsStr = tmpWords[0].word
+        for (var index in tmpWords) {
+          if (wordsStr !== tmpWords[index].word && wordsStr.length + tmpWords[index].word.length < 25 && tmpWords[index].word.length > 1) {
+            wordsStr += '，' + tmpWords[index].word
+          }
+        }
+        data[i].wordsStr = wordsStr
+      }
+      this.events = []
+      for (i in data) {
+        data[i].tweet_rate = Math.round(data[i].burst_tweets_count / data[i].sum_tweets_count * 10000)
+        this.events.push(data[i])
+      }
+    })
+  },
+
   components: {
     contentFrame
   }

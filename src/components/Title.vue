@@ -1,23 +1,42 @@
-<template lang="jade">
-div.bgimg
-  div.mask
-div.main-title
-  div.content-wrap.opacity-anim
-    h1.title-content 突发事件检测系统
-    div.toolbar
-      span {{time}}
+<template>
+<div class="bgimg">
+  <div class="mask"></div>
+</div>
+<div class="main-title">
+  <div class="content-wrap opacity-anim">
+    <slot name='title'></slot>
+    <div class="toolbar">
+      <span>{{time}}</span>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
+var $ = require('jquery')
 export default {
+  props: ['mainTitle'],
   data () {
     return {
       msg: 'Brust Event Detection System DOME',
       time: '2016年1月18号'
     }
+  },
+
+  ready () {
+    var myDate = new Date()
+    this.time = myDate.getFullYear() + '年' + (myDate.getMonth() + 1) + '月' + myDate.getDate() + '日'
   }
 }
-
+$(window).scroll(() => {
+  var oprate = $(window).scrollTop() / (350 - 66)
+  $('div.mask').css('opacity', oprate)
+  if (oprate !== 0) {
+    $('.main-title>.content-wrap').css('opacity', 0)
+  } else {
+    $('.main-title>.content-wrap').css('opacity', 1)
+  }
+})
 </script>
 
 <style scoped>

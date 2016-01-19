@@ -1,8 +1,10 @@
-<template lang="jade">
-div.navbar
-  div.nav-menu-bar
-    i.fa.fa-bars
-  div.nav-title {{msg}}
+<template>
+<div class="navbar">
+  <div class="nav-menu-bar">
+    <i class="fa fa-bars"></i>
+  </div>
+  <div class="nav-title">{{msg}}</div>
+</div>
 </template>
 
 <script>
