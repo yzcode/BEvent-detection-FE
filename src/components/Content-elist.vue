@@ -10,7 +10,7 @@
   <div slot="content">
     <div v-for="event in events | orderBy 'tweet_rate' -1" class="list-item">
       <div class="event-wrap">
-        <a class="event-cont">
+        <a class="event-cont" v-link="{ name: 'event', params: { eventId: event._id }}">
           <div class="index"></div>
           <div class="title">
             <span>{{event.wordsStr}}</span>
@@ -32,6 +32,7 @@
 <script>
 var $ = require('jquery')
 import contentFrame from './Content-frame.vue'
+import { preEventFilter } from '../services/preEventFilter'
 export default {
   props: ['dataUrl', 'title', 'tipWord', 'rateLabel'],
   data () {
@@ -43,28 +44,9 @@ export default {
   ready () {
     console.log(this.dataUrl)
     $.get(this.dataUrl, (data, status) => {
-      for (var i in data) {
-        data[i].burst_tweets_count = parseInt(data[i].burst_tweets_count, 10)
-        data[i].sum_tweets_count = parseInt(data[i].sum_tweets_count, 10)
-        var tmpWords = []
-        for (var key in data[i].burst_words) {
-          if (key !== undefined) {
-            tmpWords.push({'word': key, 'value': parseInt(data[i].burst_words[key], 10)})
-          }
-        }
-        tmpWords.sort((a, b) => {
-          return b.value - a.value
-        })
-        var wordsStr = tmpWords[0].word
-        for (var index in tmpWords) {
-          if (wordsStr !== tmpWords[index].word && wordsStr.length + tmpWords[index].word.length < 25 && tmpWords[index].word.length > 1) {
-            wordsStr += '，' + tmpWords[index].word
-          }
-        }
-        data[i].wordsStr = wordsStr
-      }
+      data = preEventFilter(data)
       this.events = []
-      for (i in data) {
+      for (var i in data) {
         data[i].tweet_rate = Math.round(data[i].burst_tweets_count / data[i].sum_tweets_count * 10000)
         this.events.push(data[i])
       }
@@ -179,5 +161,8 @@ to{-o-transform:rotate(360deg)}
 .sys-status span{
   animation: 1.5s linear 0s normal none infinite rotate;
   -webkit-animation:1.5s linear 0s normal none infinite rotate;
+}
+a.event-cont{
+  color: rgb(66, 132, 243);
 }
 </style>
