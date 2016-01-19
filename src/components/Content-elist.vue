@@ -20,7 +20,10 @@
             <div class="label">{{rateLabel}}</div>
           </div>
           <div class="img-wrap">
-            <img class="event-img" src="/dist/assets/img/people.jpg">
+            <img class="event-img" src="{{event.img_url}}">
+            <div class="event-img-label">
+              <span>{{event.img_label}}</span>
+            </div>
           </div>
         </a>
       </div>
@@ -42,12 +45,14 @@ export default {
   },
 
   ready () {
-    console.log(this.dataUrl)
+    var testLabel = ['特朗普', 'NOLA.com', 'News24', 'PC Magazine']
     $.get(this.dataUrl, (data, status) => {
       data = preEventFilter(data)
       this.events = []
       for (var i in data) {
         data[i].tweet_rate = Math.round(data[i].burst_tweets_count / data[i].sum_tweets_count * 10000)
+        data[i].img_url = '/dist/assets/img/' + (i % 4 + 1) + '.jpg'
+        data[i].img_label = testLabel[i % 4]
         this.events.push(data[i])
       }
     })
@@ -164,5 +169,22 @@ to{-o-transform:rotate(360deg)}
 }
 a.event-cont{
   color: rgb(66, 132, 243);
+}
+div.event-img-label{
+  background: linear-gradient(to top,rgba(0,0,0,0.54) 40%,rgba(0,0,0,0));
+  bottom: 0;
+  color: white;
+  font-size: 10px;
+  height: 24px;
+  overflow: hidden;
+  padding: 7px 6px;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  width: 96px;
+  white-space: nowrap;
+  border-bottom: 1px solid #e0e0e0;
 }
 </style>
