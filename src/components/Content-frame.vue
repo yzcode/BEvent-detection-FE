@@ -61,16 +61,5 @@ export default {
   white-space: nowrap;
 }
 
-.spe-content-header .title{
-  color: rgba(0,0,0,0.87);
-  font-size: 20px;
-  font-weight: 400;
-  margin-right: 260px;
-  max-width: 770px;
-  overflow: hidden;
-  padding-bottom: 16px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
 </style>
