@@ -10,7 +10,7 @@
   <div slot="content">
     <div v-for="event in events | orderBy 'tweet_rate' -1" class="list-item">
       <div class="event-wrap">
-        <a class="event-cont" v-link="{ name: 'event', params: { eventId: event._id }}">
+        <a class="event-cont" v-link="{ name: 'event', params: { event_id: event._id }}">
           <div class="index"></div>
           <div class="title">
             <span>{{event.wordsStr}}</span>

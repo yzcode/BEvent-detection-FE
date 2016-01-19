@@ -3,7 +3,7 @@
   <div class="nav-wrap" id='spe-event-nav'>
     <nav-comp></nav-comp>
     <nav-title>
-      <h1 slot="title" class="event-title">{{eventKeyword}}</h1>
+      <h1 slot="title" class="event-title">{{eventData.wordsStr}}</h1>
     </nav-title>
   </div>
 </div>
@@ -14,23 +14,31 @@
 </template>
 
 <script>
+var $ = require('jquery')
 import navComp from './components/Nav.vue'
 import navTitle from './components/Title.vue'
 import compContent from './components/Content.vue'
+import { preEventFilter } from './services/preEventFilter'
 
 export default {
   data () {
     return {
-      eventKeyword: '加利福尼亚州公路巡警局‬, ‪710號州際公路和710號加利福尼亞州州道‬, ‪高速公路‬, ‪加州高速及快速公路系统‬‬'
+      eventData: {}
     }
   },
   components: {
     navComp,
     navTitle,
     compContent
+  },
+  ready () {
+    var dataUrl = '/dist/assets/testjson/' + this.$route.params.event_id + '.json'
+    $.get(dataUrl, (data, status) => {
+      var tmpData = {'1': data}
+      this.eventData = preEventFilter(tmpData)[1]
+    })
   }
 }
-
 </script>
 
 <style lang="less">

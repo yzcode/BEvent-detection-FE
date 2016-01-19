@@ -15,7 +15,7 @@ router.map({
   '/': {
     component: App
   },
-  '/Event/:eventId': {
+  '/Event/:event_id': {
     name: 'event',
     component: Event
   }
