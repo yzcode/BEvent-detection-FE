@@ -1,10 +1,15 @@
-<template lang="jade">
-div.header
-  div.nav-wrap
-    nav-comp
-    nav-title
-div.content-seg
-  comp-content
+<template>
+<div class="header">
+  <div class="nav-wrap">
+    <nav-comp></nav-comp>
+    <nav-title></nav-title>
+  </div>
+</div>
+<div class="content-seg">
+  <comp-content>
+    <comp-elist slot="content"></comp-elist>
+  </comp-content>
+</div>
 </template>
 
 <script>
@@ -12,6 +17,7 @@ var $ = require('jquery')
 import navComp from './components/Nav.vue'
 import navTitle from './components/Title.vue'
 import compContent from './components/Content.vue'
+import compElist from './components/Content-elist.vue'
 export default {
   data () {
     return {
@@ -21,7 +27,8 @@ export default {
   components: {
     navComp,
     navTitle,
-    compContent
+    compContent,
+    compElist
   }
 }
 $(window).scroll(() => {

@@ -1,15 +1,13 @@
 <template>
-<div class="event-list-wrap">
-  <div class="event-list-container">
-    <div class="generic-separator event-list-header">
-      <div class="title">
-        突发事件
-        <span class="sys-status">
-          系统状态: 正常
-          <span class="fa fa-refresh">
-        </span>
-      </div>
-    </div>
+<content-frame spe-name="event-list">
+  <div slot="title">
+    突发事件
+    <span class="sys-status" >
+      系统状态: 正常
+      <span class="fa fa-refresh"></span>
+    </span>
+  </div>
+  <div slot="content">
     <div v-for="item in items" class="list-item">
       <div class="event-wrap">
         <a class="event-cont">
@@ -28,11 +26,11 @@
       </div>
     </div>
   </div>
-</div>
+</content-frame>
 </template>
 
 <script>
-var $ = require('jquery')
+import contentFrame from './Content-frame.vue'
 export default {
   data () {
     return {
@@ -81,63 +79,20 @@ export default {
     }
   },
   components: {
-
+    contentFrame
   }
 }
-$(window).scroll(() => {
-  var oprate = $(window).scrollTop() / (350 - 66)
-  if (oprate - 1 > 0) {
-    $('div.navbar').addClass('showshadow')
-    $('div.navbar').css('background-color', 'rgb(66,133,244)')
-  } else {
-    $('div.navbar').removeClass('showshadow')
-    $('div.navbar').css('background-color', 'transparent')
-  }
-})
 </script>
 
 <style scoped>
-.event-list-wrap{
-  color: rgba(0,0,0,0.87);
-  margin-bottom: 60px;
-}
-.event-list-container{
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.12);
-  font-family: 'Roboto',Arial,sans-serif;
-  font-weight: 400;
-  max-width: 1152px;
-  text-align: inherit;
-  counter-reset: storyIndex;
-  margin-bottom: 0;
-  overflow: hidden;
-}
-.event-list-header{
-  color: rgba(0,0,0,0.54);
-  height: 47px;
-  line-height: 47px;
-  padding-left: 24px;
-  padding-right: 24px;
-  position: relative;
-  z-index: 1;
-}
-.event-list-header>.title{
-  padding-right: 40px;
-  font-size: 16px;
-  color: rgba(0,0,0,0.87);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.event-list-container>.list-item{
+.event-list-container .list-item{
   background: white;
   display: block;
   padding-left: 24px;
   position: relative;
   height: 96px;
 }
-.event-list-container>.list-item:hover{
+.event-list-container .list-item:hover{
   padding-left: 0px;
   cursor: pointer;
 }
@@ -162,7 +117,7 @@ $(window).scroll(() => {
 .list-item:hover .index{
   padding-left: 24px;
 }
-.event-cont>.title{
+.event-cont .title{
   color: rgba(0,0,0,0.87);
   font-size: 20px;
   font-weight: 400;

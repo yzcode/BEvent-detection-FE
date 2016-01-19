@@ -1,6 +1,8 @@
-<template lang="jade">
-div.content-wrap
-  comp-elist
+<template >
+<div class="content-wrap">
+  <slot name="content">
+  </slot>
+</div>
 </template>
 
 <script>
