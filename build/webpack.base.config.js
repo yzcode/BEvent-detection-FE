@@ -8,6 +8,10 @@ module.exports = {
     publicPath: 'dist/',
     filename: 'build.js'
   },
+  resolve: {
+    alias: {
+    }
+  },
   module: {
     loaders: [
       {
