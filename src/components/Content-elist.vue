@@ -34,6 +34,7 @@
 
 <script>
 var $ = require('jquery')
+var formulaSet = require('../services/formula')
 import contentFrame from './Content-frame.vue'
 import { preEventFilter } from '../services/preEventFilter'
 export default {
@@ -50,7 +51,7 @@ export default {
       data = preEventFilter(data)
       this.events = []
       for (var i in data) {
-        data[i].tweet_rate = Math.round(data[i].burst_tweets_count / data[i].sum_tweets_count * 10000)
+        data[i].tweet_rate = formulaSet.getHotRate(data[i].burst_tweets_count, data[i].sum_tweets_count)
         data[i].img_url = '/dist/assets/img/' + (i % 4 + 1) + '.jpg'
         data[i].img_label = testLabel[i % 4]
         this.events.push(data[i])

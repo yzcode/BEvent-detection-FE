@@ -28,3 +28,42 @@ a {
   opacity: 1;
   transition: opacity .1s ease-out;
 }
+.generic-content-container{
+  height: 144px;
+}
+
+.carousel{
+  position: relative;
+  display: block;
+  height: 100%;
+}
+
+.carousel-wrapper{
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+@media screen and (min-width: 641px){
+  .carousel-items:not(.browser-ie) {
+    -webkit-transition: -webkit-transform .2s ease-in;
+    transition: transform .2s ease-in;
+  }
+}
+
+.generic-container *, .generic-container *:before, .generic-container *:after {
+    box-sizing: border-box;
+}
+@media screen and (min-width: 641px){
+  .carousel-items {
+      width: 50000px;
+  }  
+}
+
+.carousel-items {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+}
