@@ -1,0 +1,161 @@
+<template>
+<content-frame spe-name='emotion-chart'>
+  <div slot='title'>
+    {{title}}
+  </div>
+  <div slot='content'>
+    <div id='chart-emotion-bar'></div>
+    <div id='chart-emotion-pie'></div>
+  </div>
+</content-frame>
+</template>
+
+<script>
+// var $ = require('jquery')
+// var formulaSet = require('../services/formula')
+import contentFrame from './Content-frame.vue'
+var echarts = require('echarts')
+// test content
+var baroption = {
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+      type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+    }
+  },
+  legend: {
+    data: ['强负面', '弱负面', '中性', '弱正面', '强正面']
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: [
+    {
+      type: 'value'
+    }
+  ],
+  yAxis: [
+    {
+      type: 'category',
+      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+    }
+  ],
+  series: [
+    {
+      name: '强负面',
+      type: 'bar',
+      stack: '总量',
+      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
+      data: [320, 302, 301, 334, 390, 330, 320]
+    },
+    {
+      name: '弱负面',
+      type: 'bar',
+      stack: '总量',
+      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
+      data: [220, 232, 201, 234, 190, 330, 310]
+    },
+    {
+      name: '中性',
+      type: 'bar',
+      stack: '总量',
+      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
+      data: [220, 182, 191, 234, 290, 330, 310]
+    },
+    {
+      name: '弱正面',
+      type: 'bar',
+      stack: '总量',
+      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
+      data: [150, 212, 201, 154, 190, 330, 410]
+    },
+    {
+      name: '强正面',
+      type: 'bar',
+      stack: '总量',
+      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
+      data: [320, 332, 301, 434, 590, 530, 420]
+    }
+  ]
+}
+var pieoption = {
+  tooltip: {
+    trigger: 'item',
+    formatter: '{a} <br/>{b}: {c} ({d}%)'
+  },
+  legend: {
+    orient: 'horizontal',
+    bottom: '3px',
+    data: ['强负面', '弱负面', '中性', '弱正面', '强正面']
+  },
+  series: [
+    {
+      name: '情感状态',
+      type: 'pie',
+      radius: ['50%', '70%'],
+      avoidLabelOverlap: false,
+      label: {
+        normal: {
+          show: false,
+          position: 'center'
+        },
+        emphasis: {
+          show: true,
+          textStyle: {
+            fontSize: '30',
+            fontWeight: 'bold'
+          }
+        }
+      },
+      labelLine: {
+        normal: {
+          show: false
+        }
+      },
+      data: [
+        {value: 335, name: '强负面'},
+        {value: 310, name: '弱负面'},
+        {value: 234, name: '中性'},
+        {value: 135, name: '弱正面'},
+        {value: 1548, name: '强正面'}
+      ]
+    }
+  ]
+}
+
+// test content end
+export default {
+  props: ['title'],
+  data () {
+    return {
+      traceData: []
+    }
+  },
+  events: {
+  },
+  ready () {
+    var barChart = echarts.init(document.getElementById('chart-emotion-bar'))
+    var pieChart = echarts.init(document.getElementById('chart-emotion-pie'))
+    barChart.setOption(baroption)
+    pieChart.setOption(pieoption)
+  },
+
+  components: {
+    contentFrame
+  }
+}
+</script>
+
+<style scoped>
+#chart-emotion-bar{
+  height: 250px;
+  width: 100%;
+}
+#chart-emotion-pie{
+  height: 250px;
+  width: 100%;
+}
+</style>

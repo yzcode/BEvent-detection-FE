@@ -4,7 +4,7 @@
   {{title}}
   </div>
   <div slot='content'>
-  <div id='chart-dist'></div>
+    <div id='chart-dist'></div>
   </div>
 </content-frame>
 </template>
@@ -537,7 +537,7 @@ export default {
 
 <style scoped>
 #chart-dist{
-  height: 550px;
+  height: 500px;
   width: 100%;
 }
 </style>

@@ -11,7 +11,11 @@
   <div slot="content">
     <comp-tweet title="最新相关微博"></comp-tweet>
     <comp-trace-chart title="事件信息追踪"></comp-trace-chart>
-    <comp-dist-chart title="微博地区分布"></comp-dist-chart>
+    <div class="chart-wrap">
+      <comp-dist-chart title="微博地区分布"></comp-dist-chart>
+      <comp-emotion-chart title="情感状态分布"></comp-emotion-chart>
+    </div>
+    
   </div>
 </comp-content>
 </template>
@@ -24,6 +28,7 @@ import compContent from './components/Content.vue'
 import compTweet from './components/Content-tweet.vue'
 import compTraceChart from './components/Content-event-trace-chart.vue'
 import compDistChart from './components/Content-event-dist-chart.vue'
+import compEmotionChart from './components/Content-event-emotion-chart.vue'
 import { preEventFilter } from './services/preEventFilter'
 
 export default {
@@ -38,7 +43,8 @@ export default {
     compContent,
     compTweet,
     compTraceChart,
-    compDistChart
+    compDistChart,
+    compEmotionChart
   },
   ready () {
     var dataUrl = '/dist/assets/testjson/' + this.$route.params.event_id + '.json'
@@ -77,7 +83,17 @@ export default {
   background-image: none;
 }
 .dist-chart-wrap{
-  width: 800px;
+  width: 650px;
   display: inline-block;
+}
+.emotion-chart-wrap{
+  display: inline-block;
+  vertical-align: top;
+  position: absolute;
+  right: 0;
+  left: 670px;
+}
+.chart-wrap{
+  position:relative;
 }
 </style>
