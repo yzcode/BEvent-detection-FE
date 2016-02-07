@@ -4,7 +4,7 @@
     {{title}}
   </div>
   <div slot='content'>
-    <div id='chart-demo'></div>
+    <div id='chart-trace'></div>
   </div>
 </content-frame>
 </template>
@@ -100,7 +100,7 @@ export default {
   events: {
   },
   ready () {
-    var myChart = echarts.init(document.getElementById('chart-demo'))
+    var myChart = echarts.init(document.getElementById('chart-trace'))
     myChart.setOption(option)
   },
 
@@ -111,7 +111,7 @@ export default {
 </script>
 
 <style scoped>
-#chart-demo{
+#chart-trace{
   height: 400px;
   width: 100%;
 }
