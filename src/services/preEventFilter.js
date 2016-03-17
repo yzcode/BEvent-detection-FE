@@ -1,4 +1,7 @@
 export function preEventFilter (data) {
+  if (typeof data === 'string') {
+    data = JSON.parse(data)
+  }
   for (var i in data) {
     data[i].burst_tweets_count = parseInt(data[i].burst_tweets_count, 10)
     data[i].sum_tweets_count = parseInt(data[i].sum_tweets_count, 10)

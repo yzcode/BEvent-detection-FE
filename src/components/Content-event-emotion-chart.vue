@@ -139,8 +139,10 @@ export default {
   ready () {
     var barChart = echarts.init(document.getElementById('chart-emotion-bar'))
     var pieChart = echarts.init(document.getElementById('chart-emotion-pie'))
-    barChart.setOption(baroption)
-    pieChart.setOption(pieoption)
+    setTimeout(() => {
+      barChart.setOption(baroption)
+      pieChart.setOption(pieoption)
+    }, 800)
   },
 
   components: {

@@ -525,7 +525,7 @@ export default {
     $.get('/dist/assets/json/china.json', function (chinaJson) {
       echarts.registerMap('china', chinaJson)
       var myChart = echarts.init(document.getElementById('chart-dist'))
-      myChart.setOption(option)
+      setTimeout(() => {myChart.setOption(option)}, 1500)
     })
   },
 

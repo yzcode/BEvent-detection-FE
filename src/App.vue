@@ -9,8 +9,8 @@
 </div>
 <comp-content>
   <div slot="content">
-    <comp-elist data-url="/dist/assets/testjson/now_events.json" title='实时突发事件' tip-word='系统状态: 正常' rate-label='实时热点指数'></comp-elist>
-    <comp-elist data-url="/dist/assets/testjson/pre_events.json" title='持续追踪事件' tip-word='' rate-label='整体热点指数'></comp-elist>
+    <comp-elist data-url="/get_now_events/" title='实时突发事件' tip-word='系统状态: 正常' rate-label='实时热点指数'></comp-elist>
+    <comp-elist data-url="/get_pre_events/" title='持续追踪事件' tip-word='' rate-label='整体热点指数'></comp-elist>
   </div>
 </comp-content>
 </template>

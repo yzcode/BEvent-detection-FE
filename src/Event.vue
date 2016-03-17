@@ -22,6 +22,7 @@
 
 <script>
 var $ = require('jquery')
+var globalConfig = require('./services/globalConfig')
 import navComp from './components/Nav.vue'
 import navTitle from './components/Title.vue'
 import compContent from './components/Content.vue'
@@ -47,8 +48,12 @@ export default {
     compEmotionChart
   },
   ready () {
-    var dataUrl = '/dist/assets/testjson/' + this.$route.params.event_id + '.json'
+    var dataUrl = globalConfig.jsonServerUrl + '/get_single_event/' + this.$route.params.event_id
+    // var dataUrl = '/dist/assets/testjson/' + this.$route.params.event_id + '.json'
     $.get(dataUrl, (data, status) => {
+      if (typeof data === 'string') {
+        data = JSON.parse(data)
+      }
       var tmpData = {'1': data}
       this.eventData = preEventFilter(tmpData)[1]
       var tweetUrl = '/dist/assets/testjson/' + this.$route.params.event_id + '_tweets.json'

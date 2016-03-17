@@ -35,6 +35,7 @@
 <script>
 var $ = require('jquery')
 var formulaSet = require('../services/formula')
+var globalConfig = require('../services/globalConfig')
 import contentFrame from './Content-frame.vue'
 import { preEventFilter } from '../services/preEventFilter'
 export default {
@@ -44,9 +45,18 @@ export default {
       events: []
     }
   },
-
+  methods: {
+    bodyTop: function (event) {
+      $('body').scrollTop = 0
+    }
+  },
   ready () {
     var testLabel = ['特朗普', 'NOLA.com', 'News24', 'PC Magazine']
+    this.dataUrl = globalConfig.jsonServerUrl + this.dataUrl + 1434891000
+    // this.dataUrl = this.dataUrl + Math.ceil((new Date()).valueOf() / 1000 - 10 * 60)
+    if (this.title === '持续追踪事件') {
+      this.dataUrl = this.dataUrl + '/1434977400'
+    }
     $.get(this.dataUrl, (data, status) => {
       data = preEventFilter(data)
       this.events = []
