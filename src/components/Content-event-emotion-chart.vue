@@ -164,8 +164,8 @@ export default {
           statics['中性']++
         }
       }
-      for (var i in statics) {
-        pieoption.series[0].data.push({value: statics[i], name: i})
+      for (var j in statics) {
+        pieoption.series[0].data.push({value: statics[j], name: j})
       }
       var pieChart = echarts.init(document.getElementById('chart-emotion-pie'))
       pieChart.setOption(pieoption)
