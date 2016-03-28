@@ -45,21 +45,23 @@ export default {
     }
   },
   events: {
-    'tweet-ready-load': function (tweetsId) {
+    'tweet-ready-load': function (eventId) {
       this.tweets = []
-      for (var i = 0; i < tweetsId.length && i < 3; i++) {
-        var tweet_url = globalConfig.jsonServerUrl + '/get_single_event_detail/' + tweetsId[i]
-        $.get(tweet_url, (data, status) => {
-          if (typeof data === 'string') {
-            data = JSON.parse(data)
+      var tweet_url = globalConfig.jsonServerUrl + '/get_tweets_by_eventid/' + eventId
+      $.get(tweet_url, (data, status) => {
+        if (typeof data === 'string') {
+          data = JSON.parse(data)
+        }
+        for (var i in data) {
+          if (typeof data[i] === 'string') {
+            data[i] = JSON.parse(data[i])
           }
-          data.comments = formulaSet.getRandom(1,100)
-          data.forwards = formulaSet.getRandom(1,100)
-          data.likes = formulaSet.getRandom(1,100)
-          this.tweets.push(data)
-          // console.log(data)
-        })
-      }
+          data[i].comments = formulaSet.getRandom(1, 100)
+          data[i].forwards = formulaSet.getRandom(1, 100)
+          data[i].likes = formulaSet.getRandom(1, 100)
+          this.tweets.push(data[i])
+        }
+      })
     }
   },
   ready () {

@@ -56,7 +56,7 @@ export default {
       }
       var tmpData = {'1': data}
       this.eventData = preEventFilter(tmpData)[1]
-      this.$broadcast('tweet-ready-load', this.eventData.tweets_id)
+      this.$broadcast('tweet-ready-load', this.$route.params.event_id)
     })
   }
 }
