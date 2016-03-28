@@ -56,8 +56,7 @@ export default {
       }
       var tmpData = {'1': data}
       this.eventData = preEventFilter(tmpData)[1]
-      var tweetUrl = '/dist/assets/testjson/' + this.$route.params.event_id + '_tweets.json'
-      this.$broadcast('tweet-ready-load', tweetUrl)
+      this.$broadcast('tweet-ready-load', this.eventData.tweets_id)
     })
   }
 }
