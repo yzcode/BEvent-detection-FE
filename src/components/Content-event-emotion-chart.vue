@@ -116,11 +116,6 @@ var pieoption = {
         }
       },
       data: [
-        {value: 335, name: '强负面'},
-        {value: 310, name: '弱负面'},
-        {value: 234, name: '中性'},
-        {value: 135, name: '弱正面'},
-        {value: 1548, name: '强正面'}
       ]
     }
   ]
@@ -135,13 +130,51 @@ export default {
     }
   },
   events: {
+    'emotionpie-ready-load': function (data) {
+      if (typeof data === 'string') {
+        data = JSON.parse(data)
+      }
+      var statics = {
+        '强正面': 0,
+        '弱正面': 0,
+        '中性': 0,
+        '弱负面': 0,
+        '强负面': 0
+      }
+      for (var i in data) {
+        if (typeof data[i] === 'string') {
+          data[i] = JSON.parse(data[i])
+        }
+        var pos = data[i].pos
+        var neg = data[i].neg
+        var neu = data[i].neu
+        if (pos > neg && pos > neu && pos > 0.5) {
+          if (pos > 0.8) {
+            statics['强正面']++
+          } else {
+            statics['弱正面']++
+          }
+        } else if (neg > pos && neg > neu && neg > 0.5) {
+          if (neg > 0.8) {
+            statics['强负面']++
+          } else {
+            statics['弱负面']++
+          }
+        } else {
+          statics['中性']++
+        }
+      }
+      for (var i in statics) {
+        pieoption.series[0].data.push({value: statics[i], name: i})
+      }
+      var pieChart = echarts.init(document.getElementById('chart-emotion-pie'))
+      pieChart.setOption(pieoption)
+    }
   },
   ready () {
     var barChart = echarts.init(document.getElementById('chart-emotion-bar'))
-    var pieChart = echarts.init(document.getElementById('chart-emotion-pie'))
     setTimeout(() => {
       barChart.setOption(baroption)
-      pieChart.setOption(pieoption)
     }, 800)
   },
 

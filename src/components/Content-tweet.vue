@@ -33,8 +33,8 @@
 </template>
 
 <script>
-var $ = require('jquery')
-var globalConfig = require('../services/globalConfig')
+// var $ = require('jquery')
+// var globalConfig = require('../services/globalConfig')
 var formulaSet = require('../services/formula')
 import contentFrame from './Content-frame.vue'
 export default {
@@ -45,23 +45,20 @@ export default {
     }
   },
   events: {
-    'tweet-ready-load': function (eventId) {
+    'tweet-ready-load': function (data) {
       this.tweets = []
-      var tweet_url = globalConfig.jsonServerUrl + '/get_tweets_by_eventid/' + eventId
-      $.get(tweet_url, (data, status) => {
-        if (typeof data === 'string') {
-          data = JSON.parse(data)
+      if (typeof data === 'string') {
+        data = JSON.parse(data)
+      }
+      for (var i in data) {
+        if (typeof data[i] === 'string') {
+          data[i] = JSON.parse(data[i])
         }
-        for (var i in data) {
-          if (typeof data[i] === 'string') {
-            data[i] = JSON.parse(data[i])
-          }
-          data[i].comments = formulaSet.getRandom(1, 100)
-          data[i].forwards = formulaSet.getRandom(1, 100)
-          data[i].likes = formulaSet.getRandom(1, 100)
-          this.tweets.push(data[i])
-        }
-      })
+        data[i].comments = formulaSet.getRandom(1, 100)
+        data[i].forwards = formulaSet.getRandom(1, 100)
+        data[i].likes = formulaSet.getRandom(1, 100)
+        this.tweets.push(data[i])
+      }
     }
   },
   ready () {
