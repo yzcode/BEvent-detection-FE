@@ -54,6 +54,7 @@ export default {
     $.get(tweet_url, (data, status) => {
       this.$broadcast('tweet-ready-load', data)
       this.$broadcast('emotionpie-ready-load', data)
+      this.$broadcast('dist-ready-load', data)
     })
     $.get(dataUrl, (data, status) => {
       if (typeof data === 'string') {

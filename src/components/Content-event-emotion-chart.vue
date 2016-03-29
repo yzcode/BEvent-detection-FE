@@ -164,6 +164,7 @@ export default {
           statics['中性']++
         }
       }
+      pieoption.series[0].data = []
       for (var j in statics) {
         pieoption.series[0].data.push({value: statics[j], name: j})
       }
