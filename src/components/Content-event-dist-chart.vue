@@ -164,7 +164,7 @@ export default {
             prelocation = locations[0] + '市'
           } else {
             if (locations[0] !== '其他') {
-              console.log(locations)
+              // console.log(locations)
             }
           }
           if (prelocation !== '') {

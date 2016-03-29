@@ -49,19 +49,26 @@ export default {
   },
   ready () {
     var dataUrl = globalConfig.jsonServerUrl + '/get_single_event/' + this.$route.params.event_id
-    // var dataUrl = '/dist/assets/testjson/' + this.$route.params.event_id + '.json'
-    var tweet_url = globalConfig.jsonServerUrl + '/get_tweets_by_eventid/' + this.$route.params.event_id
-    $.get(tweet_url, (data, status) => {
-      this.$broadcast('tweet-ready-load', data)
-      this.$broadcast('emotionpie-ready-load', data)
-      this.$broadcast('dist-ready-load', data)
-    })
+    var tweetUrl = globalConfig.jsonServerUrl + '/get_tweets_by_eventid/' + this.$route.params.event_id
     $.get(dataUrl, (data, status) => {
       if (typeof data === 'string') {
         data = JSON.parse(data)
       }
       var tmpData = {'1': data}
       this.eventData = preEventFilter(tmpData)[1]
+      var trackUrl = globalConfig.jsonServerUrl + '/get_track_events/' + data.parent_id
+      $.get(trackUrl, (trackData, status) => {
+        if (typeof trackData === 'string') {
+          trackData = JSON.parse(trackData)
+        }
+        trackData.burst_events_objectid.sort().reverse()
+        console.log(trackData)
+      })
+    })
+    $.get(tweetUrl, (data, status) => {
+      this.$broadcast('tweet-ready-load', data)
+      this.$broadcast('emotionpie-ready-load', data)
+      this.$broadcast('dist-ready-load', data)
     })
   }
 }
