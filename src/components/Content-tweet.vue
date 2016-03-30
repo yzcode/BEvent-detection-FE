@@ -156,7 +156,7 @@ export default {
   color: rgba(0,0,0,0.54);
   font-size: 12px;
   font-weight: 500;
-  height: 26px;
+  height: 30px;
   margin-top: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
