@@ -41,7 +41,7 @@ export default {
   text-align: inherit;
   counter-reset: storyIndex;
   margin-bottom: 0;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 .spe-content-header{
   color: rgba(0,0,0,0.54);
