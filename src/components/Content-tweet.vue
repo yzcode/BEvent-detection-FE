@@ -15,7 +15,9 @@
                     <span>{{tweet.content}}</span>
                   </div>
                   <div class="tweet-source-time">
-                    <div class="tweet-source" @click="tweetRawPage(tweet.pageurl)" url="{{tweet.pageurl}}">原文链接</div>
+                    <div class="tweet-source" url="{{tweet.pageurl}}">
+                      <span @click="tweetRawPage(tweet.pageurl)">原文链接</span>
+                    </div>
                     <div class="tweet-user"><span>{{tweet.username}}</span></div>
                     <div class="tweet-time">{{tweet.timestamp}}</div>
                   </div>
@@ -87,7 +89,7 @@ export default {
   },
   methods: {
     'tweetRawPage': (msg, event) => {
-      window.location = msg
+      window.open(msg)
     },
     'rollLeft': (event) => {
       if (carouselIndex + 3 < carouselMax) {
@@ -177,7 +179,7 @@ export default {
 .tweet-media>div>span{
   color: red;
 }
-.tweet-source-time > .tweet-source {
+.tweet-source-time > .tweet-source span{
   color: #84ABF0;
   cursor: pointer;
 }
