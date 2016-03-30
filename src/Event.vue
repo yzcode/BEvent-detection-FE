@@ -48,6 +48,8 @@ export default {
     compEmotionChart
   },
   ready () {
+    this.$broadcast('checkNav')
+    this.$broadcast('checkTitle')
     var dataUrl = globalConfig.jsonServerUrl + '/get_single_event/' + this.$route.params.event_id
     var tweetUrl = globalConfig.jsonServerUrl + '/get_tweets_by_eventid/' + this.$route.params.event_id
     $.get(dataUrl, (data, status) => {

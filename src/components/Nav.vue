@@ -14,6 +14,18 @@ export default {
     return {
       msg: 'Brust Event Detection System DOME'
     }
+  },
+  events: {
+    checkNav: () => {
+      var oprate = $(window).scrollTop() / (350 - 66)
+      if (oprate - 1 > 0) {
+        $('div.navbar').addClass('showshadow')
+        $('div.navbar').css('background-color', 'rgb(66,133,244)')
+      } else {
+        $('div.navbar').removeClass('showshadow')
+        $('div.navbar').css('background-color', 'transparent')
+      }
+    }
   }
 }
 $(window).scroll(() => {

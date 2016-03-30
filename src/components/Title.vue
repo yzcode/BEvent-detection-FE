@@ -22,7 +22,18 @@ export default {
       time: '2016年1月18号'
     }
   },
-
+  events: {
+    'checkTitle': () => {
+      var oprate = $(window).scrollTop() / (350 - 66)
+      $('div.mask').css('opacity', oprate)
+      if (oprate !== 0) {
+        $('.main-title>.content-wrap').css('opacity', 0)
+      } else {
+        $('.main-title>.content-wrap').css('opacity', 1)
+      }
+      console.log('checkTitle')
+    }
+  },
   ready () {
     var myDate = new Date()
     this.time = myDate.getFullYear() + '年' + (myDate.getMonth() + 1) + '月' + myDate.getDate() + '日'
