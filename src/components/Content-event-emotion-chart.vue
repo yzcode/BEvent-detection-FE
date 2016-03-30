@@ -14,6 +14,7 @@
 // var $ = require('jquery')
 // var formulaSet = require('../services/formula')
 import contentFrame from './Content-frame.vue'
+import { preEventFilter } from '../services/preEventFilter'
 var echarts = require('echarts')
 // test content
 var baroption = {
@@ -24,12 +25,13 @@ var baroption = {
     }
   },
   legend: {
-    data: ['强负面', '弱负面', '中性', '弱正面', '强正面']
+    data: ['正面指数', '负面指数', '中性指数'],
+    top: '5%'
   },
   grid: {
     left: '3%',
     right: '4%',
-    bottom: '3%',
+    bottom: '2%',
     containLabel: true
   },
   xAxis: [
@@ -40,44 +42,69 @@ var baroption = {
   yAxis: [
     {
       type: 'category',
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      data: []
     }
   ],
   series: [
     {
-      name: '强负面',
+      name: '正面指数',
       type: 'bar',
       stack: '总量',
-      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
-      data: [320, 302, 301, 334, 390, 330, 320]
+      itemStyle: {
+        normal: {
+          label: {
+            show: false,
+            position: 'insideRight',
+            formatter: (params) => {
+              if (params.data - 0.01 < 0) {
+                return ''
+              }
+              return params.data.toFixed(2)
+            }
+          }
+        }
+      },
+      data: []
     },
     {
-      name: '弱负面',
+      name: '负面指数',
       type: 'bar',
       stack: '总量',
-      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
-      data: [220, 232, 201, 234, 190, 330, 310]
+      itemStyle: {
+        normal: {
+          label: {
+            show: false,
+            position: 'insideRight',
+            formatter: (params) => {
+              if (params.data - 0.01 < 0) {
+                return ''
+              }
+              return params.data.toFixed(2)
+            }
+          }
+        }
+      },
+      data: []
     },
     {
-      name: '中性',
+      name: '中性指数',
       type: 'bar',
       stack: '总量',
-      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
-      data: [220, 182, 191, 234, 290, 330, 310]
-    },
-    {
-      name: '弱正面',
-      type: 'bar',
-      stack: '总量',
-      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
-      data: [150, 212, 201, 154, 190, 330, 410]
-    },
-    {
-      name: '强正面',
-      type: 'bar',
-      stack: '总量',
-      itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
-      data: [320, 332, 301, 434, 590, 530, 420]
+      itemStyle: {
+        normal: {
+          label: {
+            show: false,
+            position: 'insideRight',
+            formatter: (params) => {
+              if (params.data - 0.01 < 0) {
+                return ''
+              }
+              return params.data.toFixed(2)
+            }
+          }
+        }
+      },
+      data: []
     }
   ]
 }
@@ -89,7 +116,7 @@ var pieoption = {
   legend: {
     orient: 'horizontal',
     bottom: '3px',
-    data: ['强负面', '弱负面', '中性', '弱正面', '强正面']
+    data: ['强正面', '弱正面', '中性', '弱负面', '强负面']
   },
   series: [
     {
@@ -130,6 +157,32 @@ export default {
     }
   },
   events: {
+    'emotionbar-ready-load': (eventData) => {
+      var eventArr = []
+      preEventFilter(eventData)
+      for (var i in eventData) {
+        eventData[i].timestamp = new Date(eventData[i].timestamp)
+        eventArr.push(eventData[i])
+      }
+      eventArr = eventArr.sort((a, b) => {
+        return b.timestamp.valueOf() - a.timestamp.valueOf()
+      }).slice(0, 7).reverse()
+      baroption.yAxis[0].data = []
+      baroption.series[0].data = []
+      baroption.series[1].data = []
+      baroption.series[2].data = []
+      baroption.yAxis[0].data.push('当前事件')
+      for (var ei = 0; ei < eventArr.length; ei++) {
+        if (ei !== 0) baroption.yAxis[0].data.push('事件' + (ei))
+        baroption.series[0].data.push(eventArr[ei].sentiment_pos.toFixed(2))
+        baroption.series[1].data.push(eventArr[ei].sentiment_neg.toFixed(2))
+        baroption.series[2].data.push((eventArr[ei].sentiment_neu / 15).toFixed(2))
+      }
+      var barChart = echarts.init(document.getElementById('chart-emotion-bar'))
+      setTimeout(() => {
+        barChart.setOption(baroption)
+      }, 800)
+    },
     'emotionpie-ready-load': function (data) {
       if (typeof data === 'string') {
         data = JSON.parse(data)
@@ -173,10 +226,6 @@ export default {
     }
   },
   ready () {
-    var barChart = echarts.init(document.getElementById('chart-emotion-bar'))
-    setTimeout(() => {
-      barChart.setOption(baroption)
-    }, 800)
   },
 
   components: {

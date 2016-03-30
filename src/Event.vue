@@ -62,6 +62,7 @@ export default {
           trackData = JSON.parse(trackData)
         }
         this.$broadcast('trace-ready-load', trackData)
+        this.$broadcast('emotionbar-ready-load', trackData)
         // trackData.burst_events_objectid.sort().reverse()
         // console.log(trackData)
       })

@@ -95,7 +95,7 @@ export default {
   },
   events: {
     'trace-ready-load': (eventData) => {
-      console.log(eventData)
+      // console.log(eventData)
       var eventArr = []
       dataDisArr = []
       preEventFilter(eventData)
