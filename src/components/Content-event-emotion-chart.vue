@@ -148,14 +148,14 @@ export default {
         var pos = data[i].pos
         var neg = data[i].neg
         var neu = data[i].neu
-        if (pos > neg && pos > neu && pos > 0.5) {
-          if (pos > 0.8) {
+        if (pos > neg && pos > neu) {
+          if (pos > 0.75) {
             statics['强正面']++
           } else {
             statics['弱正面']++
           }
-        } else if (neg > pos && neg > neu && neg > 0.5) {
-          if (neg > 0.8) {
+        } else if (neg > pos && neg > neu) {
+          if (neg > 0.75) {
             statics['强负面']++
           } else {
             statics['弱负面']++

@@ -1,9 +1,9 @@
 <template>
 <div class="navbar">
   <div class="nav-menu-bar">
-    <i class="fa fa-bars"></i>
+    <a v-link="{path: '/'}" style="color: white;"><i class="fa fa-bars"></i></a>
   </div>
-  <div class="nav-title">{{msg}}</div>
+  <div class="nav-title" >{{msg}}</div>
 </div>
 </template>
 
@@ -55,6 +55,7 @@ div.nav-title{
   font-size: 20px;
   font-weight: 400;
   color: #EEE;
+  cursor: pointer;
 }
 div.nav-menu-bar{
   padding: 5px;
@@ -70,7 +71,8 @@ div.nav-menu-bar:hover{
   cursor: pointer;
   background-color: rgb(58,117,215);
 }
-div.nav-menu-bar>i{
+div.nav-menu-bar i{
   padding-top: 5px;
+  vertical-align: middle;
 }
 </style>

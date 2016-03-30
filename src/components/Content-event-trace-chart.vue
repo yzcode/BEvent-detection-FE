@@ -11,21 +11,22 @@
 
 <script>
 // var $ = require('jquery')
-// var formulaSet = require('../services/formula')
+var formulaSet = require('../services/formula')
+import { preEventFilter } from '../services/preEventFilter'
 import contentFrame from './Content-frame.vue'
 var echarts = require('echarts')
 // test content
-var keyword = ['南京 宝马 警方', '南京 宝马 肇事', '南京 宝马 嫌疑人', '南京 宝马 超速', '南京 宝马 驾驶证', '南京 宝马 死亡', '南京 宝马 事故', '南京 宝马', '南京 宝马 无照驾驶', '南京 宝马', '南京 宝马', '南京 宝马 毒驾']
+var dataDisArr = []
 var option = {
   tooltip: {
     trigger: 'axis',
     formatter: function (params, ticket, callback) {
       var tip_str = '事件编号: ' + params[0].name + '<br/>'
-      tip_str += '事件时间: ' + '<br/>'
+      tip_str += '事件时间: ' + dataDisArr[params[0].dataIndex].date.toLocaleString() + '<br/>'
       for (var i in params) {
         tip_str += params[i].seriesName + ': ' + params[i].value + '<br/>'
       }
-      tip_str += '关键词' + ': ' + keyword[params[0].dataIndex] + '<br/>'
+      tip_str += '关键词' + ': ' + dataDisArr[params[0].dataIndex].keyword + '<br/>'
       return tip_str
     }
   },
@@ -46,16 +47,13 @@ var option = {
   xAxis: [
     {
       type: 'category',
-      data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+      data: []
     }
   ],
   yAxis: [
     {
       type: 'value',
       name: '情感指数',
-      min: 0,
-      max: 250,
-      interval: 50,
       axisLabel: {
         formatter: '{value}'
       }
@@ -63,9 +61,6 @@ var option = {
     {
       type: 'value',
       name: '热度指数',
-      min: 0,
-      max: 25,
-      interval: 5,
       axisLabel: {
         formatter: '{value}'
       }
@@ -75,18 +70,18 @@ var option = {
     {
       name: '负面情感指数',
       type: 'bar',
-      data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+      data: []
     },
     {
       name: '正面情感指数',
       type: 'bar',
-      data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+      data: []
     },
     {
       name: '热度指数',
       type: 'line',
       yAxisIndex: 1,
-      data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+      data: []
     }
   ]
 }
@@ -100,22 +95,37 @@ export default {
   },
   events: {
     'trace-ready-load': (eventData) => {
+      console.log(eventData)
       var eventArr = []
+      dataDisArr = []
+      preEventFilter(eventData)
       for (var i in eventData) {
         eventData[i].timestamp = new Date(eventData[i].timestamp)
         eventArr.push(eventData[i])
       }
-      eventArr.sort((a, b) => {
+      eventArr = eventArr.sort((a, b) => {
         return b.timestamp.valueOf() - a.timestamp.valueOf()
-      })
+      }).slice(0, 12).reverse()
+      option.series[0].data = []
+      option.series[1].data = []
+      option.series[2].data = []
+      option.xAxis[0].data = []
       for (var ei = 0; ei < eventArr.length; ei++) {
-        console.log(eventArr[ei].timestamp)
+        // console.log(eventArr[ei].timestamp)
+        option.xAxis[0].data.push((ei + 1).toString())
+        option.series[0].data.push(eventArr[ei].sentiment_neg.toFixed(6))
+        option.series[1].data.push(eventArr[ei].sentiment_pos.toFixed(6))
+        option.series[2].data.push(formulaSet.getHotRate(eventArr[ei].burst_tweets_count, eventArr[ei].sum_tweets_count))
+        dataDisArr.push({
+          date: eventArr[ei].timestamp,
+          keyword: eventArr[ei].wordsStr
+        })
       }
+      var myChart = echarts.init(document.getElementById('chart-trace'))
+      myChart.setOption(option)
     }
   },
   ready () {
-    var myChart = echarts.init(document.getElementById('chart-trace'))
-    myChart.setOption(option)
   },
 
   components: {
