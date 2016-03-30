@@ -56,13 +56,14 @@ export default {
       }
       var tmpData = {'1': data}
       this.eventData = preEventFilter(tmpData)[1]
-      var trackUrl = globalConfig.jsonServerUrl + '/get_track_events/' + data.parent_id
+      var trackUrl = globalConfig.jsonServerUrl + '/get_events_by_parentid/' + data.parent_id
       $.get(trackUrl, (trackData, status) => {
         if (typeof trackData === 'string') {
           trackData = JSON.parse(trackData)
         }
-        trackData.burst_events_objectid.sort().reverse()
-        console.log(trackData)
+        this.$broadcast('trace-ready-load', trackData)
+        // trackData.burst_events_objectid.sort().reverse()
+        // console.log(trackData)
       })
     })
     $.get(tweetUrl, (data, status) => {

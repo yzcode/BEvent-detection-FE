@@ -45,7 +45,14 @@ var option = {
     }
   },
   tooltip: {
-    trigger: 'item'
+    trigger: 'item',
+    formatter: (params, ticket, callback) => {
+      var tip_str = params.seriesName + '<br/>'
+      tip_str += '<span style="display: inline-block;margin-right: 5px;border-radius: 10px;width: 9px;height: 9px;background-color:' + params.color + '"></span>'
+      tip_str += params.name
+      tip_str += params.data.value[2]
+      return tip_str
+    }
   },
   legend: {
     orient: 'vertical',
@@ -53,7 +60,7 @@ var option = {
     x: 'right',
     data: ['微博数量'],
     textStyle: {
-      color: '#fff'
+      color: '#3C485C'
     }
   },
   geo: {
@@ -81,7 +88,7 @@ var option = {
       coordinateSystem: 'geo',
       data: convertData(data),
       symbolSize: function (val) {
-        return val[2] / 10
+        return val[2] * 1.5
       },
       label: {
         normal: {
@@ -107,7 +114,7 @@ var option = {
         return b.value - a.value
       }).slice(0, 6)),
       symbolSize: function (val) {
-        return val[2] / 10
+        return val[2] * 1.2
       },
       showEffectOn: 'render',
       rippleEffect: {
@@ -178,7 +185,7 @@ export default {
         for (var k in statics) {
           data.push({
             name: k,
-            value: statics[k] * 10
+            value: statics[k]
           })
           // console.log(k)
         }

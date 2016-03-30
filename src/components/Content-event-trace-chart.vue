@@ -20,7 +20,8 @@ var option = {
   tooltip: {
     trigger: 'axis',
     formatter: function (params, ticket, callback) {
-      var tip_str = params[0].name + '<br/>'
+      var tip_str = '事件编号: ' + params[0].name + '<br/>'
+      tip_str += '事件时间: ' + '<br/>'
       for (var i in params) {
         tip_str += params[i].seriesName + ': ' + params[i].value + '<br/>'
       }
@@ -45,7 +46,7 @@ var option = {
   xAxis: [
     {
       type: 'category',
-      data: ['1号', '2号', '3号', '4号', '5号', '6号', '7号', '8号', '9号', '10号', '11号', '12号']
+      data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
     }
   ],
   yAxis: [
@@ -98,6 +99,19 @@ export default {
     }
   },
   events: {
+    'trace-ready-load': (eventData) => {
+      var eventArr = []
+      for (var i in eventData) {
+        eventData[i].timestamp = new Date(eventData[i].timestamp)
+        eventArr.push(eventData[i])
+      }
+      eventArr.sort((a, b) => {
+        return b.timestamp.valueOf() - a.timestamp.valueOf()
+      })
+      for (var ei = 0; ei < eventArr.length; ei++) {
+        console.log(eventArr[ei].timestamp)
+      }
+    }
   },
   ready () {
     var myChart = echarts.init(document.getElementById('chart-trace'))
