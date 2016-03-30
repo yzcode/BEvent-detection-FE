@@ -14,6 +14,7 @@
                   <span>{{tweet.content}}</span>
                 </div>
                 <div class="tweet-source-time">
+                  <div class="tweet-source" @click="tweetRawPage(tweet.pageurl)" url="{{tweet.pageurl}}">原文链接</div>
                   <div class="tweet-user"><span>{{tweet.username}}</span></div>
                   <div class="tweet-time">{{tweet.timestamp}}</div>
                 </div>
@@ -61,6 +62,12 @@ export default {
       }
     }
   },
+  methods: {
+    'tweetRawPage': (msg, event) => {
+      // console.log(msg)
+      window.location = msg
+    }
+  },
   ready () {
   },
 
@@ -77,7 +84,7 @@ export default {
 }
 .tweet{
   border-right: 1px solid #e0e0e0;
-  cursor: pointer;
+  /*cursor: pointer;*/
   display: inline-block;
   padding: 24px;
   position: relative;
@@ -109,7 +116,7 @@ export default {
   color: rgba(0,0,0,0.54);
   font-size: 12px;
   font-weight: 500;
-  height: 16px;
+  height: 26px;
   margin-top: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -131,5 +138,9 @@ export default {
 }
 .tweet-media>div>span{
   color: red;
+}
+.tweet-source-time > .tweet-source {
+  color: #84ABF0;
+  cursor: pointer;
 }
 </style>
