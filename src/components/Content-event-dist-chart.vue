@@ -50,6 +50,7 @@ var option = {
       var tip_str = params.seriesName + '<br/>'
       tip_str += '<span style="display: inline-block;margin-right: 5px;border-radius: 10px;width: 9px;height: 9px;background-color:' + params.color + '"></span>'
       tip_str += params.name
+      tip_str += ' 微博数量: '
       tip_str += params.data.value[2]
       return tip_str
     }
