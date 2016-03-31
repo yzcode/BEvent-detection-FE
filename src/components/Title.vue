@@ -31,7 +31,6 @@ export default {
       } else {
         $('.main-title>.content-wrap').css('opacity', 1)
       }
-      console.log('checkTitle')
     }
   },
   ready () {

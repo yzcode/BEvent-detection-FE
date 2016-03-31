@@ -31,7 +31,7 @@
             </div>
           </div>
         </div>
-        <div class="left-roll-btn roll-btn" @click="rollRight">
+        <div class="left-roll-btn roll-btn carousel-hiden" @click="rollRight">
           <div class="svg-wraper">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ng-scope">
               <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
@@ -39,7 +39,7 @@
             </svg>
           </div>
         </div>
-        <div class="right-roll-btn roll-btn" @click="rollLeft">
+        <div class="right-roll-btn roll-btn carousel-hiden" @click="rollLeft">
           <div class="svg-wraper">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ng-scope">
               <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
@@ -58,8 +58,47 @@ var $ = require('jquery')
 // var globalConfig = require('../services/globalConfig')
 var formulaSet = require('../services/formula')
 import contentFrame from './Content-frame.vue'
-var carouselMax = 0
-var carouselIndex = 0
+var carouselCtl = {
+  carouselMax: 0,
+  carouselIndex: 0,
+  initItem: function () {
+    this.carouselMax = 0
+    this.carouselIndex = 0
+    $('.carousel-items').css('left', '0')
+  },
+  addItem: function () {
+    this.carouselMax++
+    if (this.carouselIndex + 3 < this.carouselMax) {
+      $('.carousel .right-roll-btn').removeClass('carousel-hiden')
+    } else {
+      $('.carousel .right-roll-btn').addClass('carousel-hiden')
+    }
+  },
+  incIndex: function () {
+    if (this.carouselIndex + 3 < this.carouselMax) {
+      this.carouselIndex ++
+      $('.carousel-items').animate({
+        'left': '-=384px'
+      }, 'fast')
+      $('.carousel .left-roll-btn').removeClass('carousel-hiden')
+      if (this.carouselIndex + 3 === this.carouselMax) {
+        $('.carousel .right-roll-btn').addClass('carousel-hiden')
+      }
+    }
+  },
+  decIndex: function () {
+    if (this.carouselIndex > 0) {
+      this.carouselIndex --
+      $('.carousel-items').animate({
+        'left': '+=384px'
+      }, 'fast')
+      $('.carousel .right-roll-btn').removeClass('carousel-hiden')
+      if (this.carouselIndex === 0) {
+        $('.carousel .left-roll-btn').addClass('carousel-hiden')
+      }
+    }
+  }
+}
 export default {
   props: ['title'],
   data () {
@@ -69,8 +108,7 @@ export default {
   },
   events: {
     'tweet-ready-load': function (data) {
-      carouselMax = 0
-      carouselIndex = 0
+      carouselCtl.initItem()
       this.tweets = []
       if (typeof data === 'string') {
         data = JSON.parse(data)
@@ -83,7 +121,7 @@ export default {
         data[i].forwards = formulaSet.getRandom(1, 100)
         data[i].likes = formulaSet.getRandom(1, 100)
         this.tweets.push(data[i])
-        carouselMax += 1
+        carouselCtl.addItem()
       }
     }
   },
@@ -92,20 +130,10 @@ export default {
       window.open(msg)
     },
     'rollLeft': (event) => {
-      if (carouselIndex + 3 < carouselMax) {
-        carouselIndex += 1
-        $('.carousel-items').animate({
-          'left': '-=384px'
-        })
-      }
+      carouselCtl.incIndex()
     },
     'rollRight': (event) => {
-      if (carouselIndex > 0) {
-        carouselIndex -= 1
-        $('.carousel-items').animate({
-          'left': '+=384px'
-        })
-      }
+      carouselCtl.decIndex()
     }
   },
   ready () {
