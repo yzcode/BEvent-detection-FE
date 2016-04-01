@@ -4,7 +4,7 @@
     {{title}}
     <span class="sys-status" >
       {{tipWord}}
-      <span class="fa fa-refresh"></span>
+      <span class="fa fa-refresh normal"></span>
     </span>
   </div>
   <div slot="content">
@@ -66,6 +66,9 @@ export default {
         data[i].img_label = testLabel[i % 4]
         this.events.push(data[i])
       }
+    }).fail(() => {
+      this.tipWord = '系统状态：异常'
+      $('span.sys-status>span').removeClass('normal')
     })
   },
 
@@ -174,7 +177,7 @@ to{-ms-transform:rotate(360deg)}
 from{-o-transform:rotate(0deg)}
 to{-o-transform:rotate(360deg)}
 }
-.sys-status span{
+.sys-status span.normal{
   animation: 1.5s linear 0s normal none infinite rotate;
   -webkit-animation:1.5s linear 0s normal none infinite rotate;
 }

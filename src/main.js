@@ -21,4 +21,8 @@ router.map({
   }
 })
 
+router.beforeEach(() => {
+  window.scrollTo(0, 0)
+})
+
 router.start(AppEnter, 'body')

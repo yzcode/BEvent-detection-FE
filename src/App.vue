@@ -9,8 +9,8 @@
 </div>
 <comp-content>
   <div slot="content">
-    <comp-elist data-url="/get_now_events/" title='实时突发事件' tip-word='系统状态: 正常' rate-label='实时热点指数'></comp-elist>
-    <comp-elist data-url="/get_pre_events/" title='持续追踪事件' tip-word='' rate-label='整体热点指数'></comp-elist>
+    <comp-elist data-url="/get_now_events/" title='实时突发事件' :tip-word='sysStatus' rate-label='实时热点指数'></comp-elist>
+    <comp-elist data-url="/get_pre_events/" title='持续追踪事件' :tip-word='sysStatus' rate-label='整体热点指数'></comp-elist>
   </div>
 </comp-content>
 </template>
@@ -23,7 +23,8 @@ import compElist from './components/Content-elist.vue'
 export default {
   data () {
     return {
-      msg: 'Hello from vue-loader!'
+      msg: 'Hello from vue-loader!',
+      sysStatus: '系统状态：正常'
     }
   },
   components: {
