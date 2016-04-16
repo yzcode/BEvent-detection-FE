@@ -2,6 +2,14 @@
 <div class="navbar">
   <div class="nav-menu-bar">
     <a v-link="{path: '/'}" style="color: white;"><i class="fa fa-bars"></i></a>
+    <ul id="main_menu">
+      <li>
+        <a v-link="{path: '/'}">突发事件监测</a>
+      </li>
+      <li>
+        <a v-link="{path: '/TraceList'}">跟踪事件监测</a>
+      </li>
+    </ul>
   </div>
   <div class="nav-title" >{{msg}}</div>
 </div>
@@ -86,5 +94,48 @@ div.nav-menu-bar:hover{
 div.nav-menu-bar i{
   padding-top: 5px;
   vertical-align: middle;
+}
+div.nav-menu-bar:hover #main_menu{
+  display: block!important;
+}
+ul#main_menu{
+  position: absolute;
+  display: none;
+  margin-top: 0;
+  background-color: #fff;
+  top: 50px;
+  left: 20px;
+  z-index: 1000;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+  background-clip: padding-box;
+  text-align: left;
+  /*border-top-left-radius: 0;*/
+  /*border-top-right-radius: 0;*/
+}
+#main_menu li a{
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.428571429;
+  color: #333;
+  white-space: nowrap;
+  text-decoration: none;
+}
+#main_menu li a:hover{
+  color: #262626;
+  text-decoration: none;
+  background-color: #f5f5f5;
 }
 </style>
