@@ -3,6 +3,8 @@
  */
 import Vue from 'vue'
 import App from './App.vue'
+import Trace from './Trace.vue'
+import Tlist from './Tlist.vue'
 import Event from './Event.vue'
 var VueRouter = require('vue-router')
 Vue.use(VueRouter)
@@ -18,6 +20,14 @@ router.map({
   '/Event/:event_id': {
     name: 'event',
     component: Event
+  },
+  '/TraceEvent/:Trace_id': {
+    name: 'traceevent',
+    component: Trace
+  },
+  '/TraceList': {
+    name: 'tracelist',
+    component: Tlist
   }
 })
 

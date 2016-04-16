@@ -9,8 +9,8 @@
 </div>
 <comp-content>
   <div slot="content">
-    <comp-elist data-url="/get_detection_events_by_time/" title='实时突发事件' :tip-word='sysStatus' rate-label='实时热点指数'></comp-elist>
-    <!-- <comp-elist data-url="/get_detection_events_by_time/" title='持续追踪事件' :tip-word='sysStatus' rate-label='整体热点指数'></comp-elist> -->
+    <!-- <comp-elist data-url="/get_detection_events_by_time/" title='实时突发事件' :tip-word='sysStatus' rate-label='实时热点指数'></comp-elist> -->
+    <comp-elist data-url="/get_tracking_events_by_time/" title='持续追踪事件' :tip-word='sysStatus' rate-label='整体热点指数'></comp-elist>
   </div>
 </comp-content>
 </template>

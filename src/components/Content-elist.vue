@@ -10,7 +10,23 @@
   <div slot="content">
     <div v-for="event in events | orderBy 'tweet_rate' -1" class="list-item">
       <div class="event-wrap">
-        <a class="event-cont" v-link="{ name: 'event', params: { event_id: event._id }}">
+        <a v-if="!isTrace" class="event-cont" v-link="{ name: 'event', params: { event_id: event._id }}">
+          <div class="index"></div>
+          <div class="title">
+            <span>{{event.wordsStr}}</span>
+          </div>
+          <div class="followers">
+            <span>{{event.tweet_rate}}</span>
+            <div class="label">{{rateLabel}}</div>
+          </div>
+          <div class="img-wrap">
+            <img class="event-img" src="{{event.img_url}}">
+            <div class="event-img-label">
+              <span>{{event.img_label}}</span>
+            </div>
+          </div>
+        </a>
+        <a v-if="isTrace" class="event-cont" v-link="{ name: 'traceevent', params: { Trace_id: event._id }}">
           <div class="index"></div>
           <div class="title">
             <span>{{event.wordsStr}}</span>
@@ -42,7 +58,8 @@ export default {
   props: ['dataUrl', 'title', 'tipWord', 'rateLabel'],
   data () {
     return {
-      events: []
+      events: [],
+      isTrace: false
     }
   },
   methods: {
@@ -56,6 +73,7 @@ export default {
     // this.dataUrl = this.dataUrl + Math.ceil((new Date()).valueOf() / 1000 - 10 * 60)
     if (this.title === '持续追踪事件') {
       this.dataUrl = this.dataUrl + '/1434977400'
+      this.isTrace = true
     }
     $.get(this.dataUrl, (data, status) => {
       data = preEventFilter(data)

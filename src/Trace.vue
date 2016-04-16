@@ -10,7 +10,7 @@
 <comp-content>
   <div slot="content">
     <comp-tweet title="最新相关微博"></comp-tweet>
-    <!-- <comp-trace-chart title="事件信息追踪"></comp-trace-chart> -->
+    <comp-trace-chart title="事件信息追踪"></comp-trace-chart>
     <div class="chart-wrap">
       <comp-dist-chart title="微博地区分布"></comp-dist-chart>
       <comp-emotion-chart title="情感状态分布"></comp-emotion-chart>
@@ -50,30 +50,37 @@ export default {
   ready () {
     this.$broadcast('checkNav')
     this.$broadcast('checkTitle')
-    var dataUrl = globalConfig.jsonServerUrl + '/get_detection_event_by_id/' + this.$route.params.event_id
-    var tweetUrl = globalConfig.jsonServerUrl + '/get_tweets_by_eventid/' + this.$route.params.event_id
+    var dataUrl = globalConfig.jsonServerUrl + '/get_tracking_event_by_id/' + this.$route.params.Trace_id
     $.get(dataUrl, (data, status) => {
       if (typeof data === 'string') {
         data = JSON.parse(data)
       }
       var tmpData = {'1': data}
       this.eventData = preEventFilter(tmpData)[1]
-      var trackUrl = globalConfig.jsonServerUrl + '/get_events_by_parentid/' + data.parent_id
+      var trackUrl = globalConfig.jsonServerUrl + '/get_events_by_parentid/' + data._id
       $.get(trackUrl, (trackData, status) => {
         if (typeof trackData === 'string') {
           trackData = JSON.parse(trackData)
         }
+        // console.log(trackData)
         this.$broadcast('trace-ready-load', trackData)
         this.$broadcast('emotionbar-ready-load', trackData)
         // trackData.burst_events_objectid.sort().reverse()
         // console.log(trackData)
       })
+      // console.log(data)
+      var tweetUrl = globalConfig.jsonServerUrl + '/get_tweets_by_eventid/' + data.burst_events_objectid[0]
+      $.get(tweetUrl, (data, status) => {
+        this.$broadcast('tweet-ready-load', data)
+        this.$broadcast('emotionpie-ready-load', data)
+        this.$broadcast('dist-ready-load', data)
+      })
     })
-    $.get(tweetUrl, (data, status) => {
-      this.$broadcast('tweet-ready-load', data)
-      this.$broadcast('emotionpie-ready-load', data)
-      this.$broadcast('dist-ready-load', data)
-    })
+    // $.get(tweetUrl, (data, status) => {
+    //   this.$broadcast('tweet-ready-load', data)
+    //   this.$broadcast('emotionpie-ready-load', data)
+    //   this.$broadcast('dist-ready-load', data)
+    // })
   }
 }
 </script>
