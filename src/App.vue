@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       msg: 'Hello from vue-loader!',
-      sysStatus: '系统状态：正常'
+      sysStatus: '系统状态：'
     }
   },
   components: {

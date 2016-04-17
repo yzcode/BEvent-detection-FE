@@ -15,12 +15,15 @@
           <div class="title">
             <span>{{event.wordsStr}}</span>
           </div>
+          <div class="event-time">
+            <span>{{event.timestamp}}</span>
+          </div>
           <div class="followers">
             <span>{{event.tweet_rate}}</span>
             <div class="label">{{rateLabel}}</div>
           </div>
           <div class="img-wrap">
-            <img class="event-img" src="{{event.img_url}}">
+            <img class="event-img" v-bind:src="event.img_url">
             <div class="event-img-label">
               <span>{{event.img_label}}</span>
             </div>
@@ -31,12 +34,15 @@
           <div class="title">
             <span>{{event.wordsStr}}</span>
           </div>
+          <div class="event-time">
+            <span>{{event.timestamp}}</span>
+          </div>
           <div class="followers">
             <span>{{event.tweet_rate}}</span>
             <div class="label">{{rateLabel}}</div>
           </div>
           <div class="img-wrap">
-            <img class="event-img" src="{{event.img_url}}">
+            <img class="event-img" v-bind:src="event.img_url">
             <div class="event-img-label">
               <span>{{event.img_label}}</span>
             </div>
@@ -59,37 +65,58 @@ export default {
   data () {
     return {
       events: [],
-      isTrace: false
+      isTrace: false,
+      testLabel: ['特朗普', 'NOLA.com', 'News24', 'PC Magazine']
     }
   },
   methods: {
     bodyTop: function (event) {
       $('body').scrollTop = 0
+    },
+    renderData: function (data) {
+      data = preEventFilter(data)
+      this.events = []
+      for (var i in data) {
+        data[i].tweet_rate = formulaSet.getHotRate(data[i].burst_tweets_count, data[i].sum_tweets_count)
+        data[i].img_url = '/dist/assets/img/' + (i % 4 + 1) + '.jpg'
+        data[i].img_label = this.testLabel[i % 4]
+        this.events.push(data[i])
+      }
+    },
+    setSysStatus: function (status) {
+      if (status) {
+        this.tipWord = '系统状态：正常'
+        $('span.sys-status>span').addClass('normal')
+      } else {
+        this.tipWord = '系统状态：异常'
+        $('span.sys-status>span').removeClass('normal')
+      }
     }
   },
   ready () {
-    var testLabel = ['特朗普', 'NOLA.com', 'News24', 'PC Magazine']
-    this.dataUrl = globalConfig.jsonServerUrl + this.dataUrl + 1434891000
+    // this.dataUrl = globalConfig.jsonServerUrl + this.dataUrl + 1434891000
+    this.dataUrl = globalConfig.jsonServerUrl + this.dataUrl + Math.ceil((new Date()).valueOf() / 1000 - 10 * 60)
     // this.dataUrl = this.dataUrl + Math.ceil((new Date()).valueOf() / 1000 - 10 * 60)
     if (this.title === '持续追踪事件') {
       this.dataUrl = this.dataUrl + '/1434977400'
       this.isTrace = true
     }
     $.get(this.dataUrl, (data, status) => {
-      data = preEventFilter(data)
-      this.events = []
-      for (var i in data) {
-        data[i].tweet_rate = formulaSet.getHotRate(data[i].burst_tweets_count, data[i].sum_tweets_count)
-        data[i].img_url = '/dist/assets/img/' + (i % 4 + 1) + '.jpg'
-        data[i].img_label = testLabel[i % 4]
-        this.events.push(data[i])
-      }
+      this.renderData(data)
+      this.setSysStatus(true)
     }).fail(() => {
-      this.tipWord = '系统状态：异常'
-      $('span.sys-status>span').removeClass('normal')
+      this.setSysStatus(false)
     })
+    // setInterval(() => {
+    //   $.get(this.dataUrl, (data, status) => {
+    //     this.renderData(data)
+    //     this.setSysStatus(true)
+    //     console.log('data up-to-date')
+    //   }).fail(() => {
+    //     this.setSysStatus(false)
+    //   })
+    // }, 10000)
   },
-
   components: {
     contentFrame
   }
@@ -218,5 +245,14 @@ div.event-img-label{
   width: 96px;
   white-space: nowrap;
   border-bottom: 1px solid #e0e0e0;
+}
+.event-time {
+  position: absolute;
+  bottom: 8px;
+  margin-left: 72px;
+  color: #bdbdbd;
+}
+.list-item:hover .event-time{
+  margin-left: 96px;
 }
 </style>
