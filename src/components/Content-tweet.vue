@@ -123,6 +123,9 @@ export default {
         this.tweets.push(data[i])
         carouselCtl.addItem()
       }
+      setInterval(() => {
+        this.rollLeft()
+      }, 2500)
     }
   },
   methods: {
