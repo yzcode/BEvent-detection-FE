@@ -19,7 +19,7 @@ export function preEventFilter (data) {
     })
     var wordsStr = tmpWords[0].word
     for (var index in tmpWords) {
-      if (wordsStr !== tmpWords[index].word && wordsStr.length + tmpWords[index].word.length < 25 && tmpWords[index].word.length > 1) {
+      if (wordsStr !== tmpWords[index].word && wordsStr.length + tmpWords[index].word.length < 25 && tmpWords[index].word.length >= 1) {
         wordsStr += '，' + tmpWords[index].word
       }
     }
