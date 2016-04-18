@@ -107,15 +107,15 @@ export default {
     }).fail(() => {
       this.setSysStatus(false)
     })
-    // setInterval(() => {
-    //   $.get(this.dataUrl, (data, status) => {
-    //     this.renderData(data)
-    //     this.setSysStatus(true)
-    //     console.log('data up-to-date')
-    //   }).fail(() => {
-    //     this.setSysStatus(false)
-    //   })
-    // }, 10000)
+    setInterval(() => {
+      $.get(this.dataUrl, (data, status) => {
+        this.renderData(data)
+        this.setSysStatus(true)
+        console.log('data up-to-date')
+      }).fail(() => {
+        this.setSysStatus(false)
+      })
+    }, 10000)
   },
   components: {
     contentFrame
