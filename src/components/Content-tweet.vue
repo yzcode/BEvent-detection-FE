@@ -125,7 +125,7 @@ export default {
       }
       setInterval(() => {
         this.rollLeft()
-      }, 2500)
+      }, 5000)
     }
   },
   methods: {

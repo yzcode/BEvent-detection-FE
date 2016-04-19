@@ -95,11 +95,12 @@ export default {
   },
   ready () {
     // this.dataUrl = globalConfig.jsonServerUrl + this.dataUrl + 1434891000
-    var cur_time = Math.ceil((new Date()).valueOf() / 1000)
-    var pre_url = globalConfig.jsonServerUrl + this.dataUrl
-    this.dataUrl = pre_url + cur_time
     // this.dataUrl = globalConfig.jsonServerUrl + this.dataUrl + Math.ceil((new Date()).valueOf() / 1000 - 10 * 60)
     // this.dataUrl = this.dataUrl + Math.ceil((new Date()).valueOf() / 1000 - 10 * 60)
+    var tmp_url = this.dataUrl
+    var cur_time = Math.ceil((new Date()).valueOf() / 1000)
+    var pre_url = globalConfig.jsonServerUrl + tmp_url
+    this.dataUrl = pre_url + cur_time
     if (this.title === '持续追踪事件') {
       this.dataUrl = pre_url + (cur_time - 60 * 60 * 24) + '/' + cur_time
       this.isTrace = true
@@ -111,6 +112,13 @@ export default {
       this.setSysStatus(false)
     })
     setInterval(() => {
+      var cur_time = Math.ceil((new Date()).valueOf() / 1000)
+      var pre_url = globalConfig.jsonServerUrl + tmp_url
+      this.dataUrl = pre_url + cur_time
+      if (this.title === '持续追踪事件') {
+        this.dataUrl = pre_url + (cur_time - 60 * 60 * 24) + '/' + cur_time
+        this.isTrace = true
+      }
       $.get(this.dataUrl, (data, status) => {
         this.renderData(data)
         this.setSysStatus(true)
@@ -118,7 +126,7 @@ export default {
       }).fail(() => {
         this.setSysStatus(false)
       })
-    }, 10000)
+    }, 20000)
   },
   components: {
     contentFrame
